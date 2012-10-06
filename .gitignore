@@ -17,6 +17,7 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+*.sublime*
 
 # Cake TMP Dirs
 /app/tmp/*
