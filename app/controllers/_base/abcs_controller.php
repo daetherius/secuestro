@@ -62,7 +62,7 @@ class AbcsController extends MyController{
 				}
 				
 				$msg = 'ok';
-				if(is_array($return) && in_array(false,$return,true)){ $msg = 'some'; }
+				if(is_array($return)){ $msg = 'some'; }
 				$this->_flash('save_'.$msg);
 				$this->redirect(array('action'=>'index','admin'=>1));		
 			}
@@ -88,7 +88,7 @@ class AbcsController extends MyController{
 		if(empty($this->data)){
 			$this->m[0]->unbindModel(array('hasMany'=>array_keys($this->m[0]->hasMany)));
 			$this->m[0]->recursive = 1;
-			$this->data = $this->m[0]->read();fb($this->data,'$this->data');
+			$this->data = $this->m[0]->read();
 			$this->m[0]->clean($this->data,true);
 
 		} else {
@@ -104,7 +104,7 @@ class AbcsController extends MyController{
 				}
 				
 				$msg = 'ok';
-				if(is_array($return) && in_array(false,$return,true)){ $msg = 'some'; }
+				if(is_array($return)){ $msg = 'some'; }
 				$this->_flash('save_'.$msg);
 				$this->redirect(array('action'=>'index','admin'=>1));		
 			}

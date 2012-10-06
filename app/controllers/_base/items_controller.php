@@ -67,11 +67,9 @@ class ItemsController extends AbcsController{
 		}
 			
 		if(!empty($this->data)){
-			$this->log($this->data,'upload');
 			if($return = $this->m[0]->saveAll($this->data,array('validate'=>true))){
-				$this->log($return,'upload');
 				$msg = 'ok';
-				if(is_array($return) && in_array(false,$return,true)){ $msg = 'some'; }
+				if(is_array($return)){ $msg = 'some'; }
 				$this->_flash('save_'.$msg);
 				$this->redirect(array_merge($this->passedArgs,array('action'=>'index','admin'=>1)));
 			}
