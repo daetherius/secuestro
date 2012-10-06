@@ -104,7 +104,6 @@ class FileBehavior extends ModelBehavior{
 	}
 
 	function beforeValidate(&$model){
-		$this->log(array('beforeValidate'=>$model->data),'upload');
 		$this->isUpload = false;
 		$this->toDelete = $this->toUpload[$model->alias] = array();
 
@@ -133,16 +132,12 @@ class FileBehavior extends ModelBehavior{
 			# Si está presente el campo archivo
 			if(isset($model->data[$model->alias][$field]) && is_array($model->data[$model->alias][$field])){
 				$file = $model->data[$model->alias][$field];
-				$this->log(compact('file'),'upload');
-				$this->log(array('maxsize'=>$sets['maxsize'],$file['size']),'upload');
 
 				if($sets['maxsize'] && ($file['size'] > $sets['maxsize'])){
-					$this->log('OVER MAXSIZE','upload');
 					$file['error'] = 1;
 				}
 				
 				if($file['error'] == 0){ # y se subió correctamente
-					$this->log(array('error'=>$file['error']),'upload');
 					$this->isUpload = true; # Bandera
 					$this->absDir = WWW_ROOT.$sets['dir'];
 					$this->relDir = $sets['dir'];
@@ -166,7 +161,6 @@ class FileBehavior extends ModelBehavior{
 					}
 
 				} else {
-					$this->log(array('error'=>$file['error']),'upload');
 					# No se subió archivo alguno
 					if($file['error'] == 4){
 						# Es update
@@ -230,7 +224,6 @@ class FileBehavior extends ModelBehavior{
 	///  Callbacks  //////////////////////////////////////////////////////////////////
 
 	function afterSave(&$model,$created){
-		$this->log(array('$model->id'=>$model->id),'upload');
 		if($this->isUpload){ // Sólo si fue update de archivo (Saltar si fue update de otros campos (descripción))
 			if(!is_dir($this->absDir))
 				mkdir($this->relDir,0777);
@@ -247,7 +240,6 @@ class FileBehavior extends ModelBehavior{
 			
 			foreach($this->toUpload[$model->alias] as $uploadme){
 				$uploaded = move_uploaded_file($uploadme['temp'],$uploadme['target']);
-				$this->log(is_bool($uploaded) ? ($uploaded ? 'TRUE':'FALSE'): $uploaded, 'upload');
 				
 				/****** WATERMARK *****************************/
 				
